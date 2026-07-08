@@ -1,13 +1,12 @@
-import { hunterList } from "./data/hunterData";
-import { survivorList } from "./data/survivorData";
+import MapBoard from "./components/MapBoard";
+import Sidebar from "./components/Sidebar";
 
 function App() {
-    console.log("Hunters:", hunterList);
-    console.log("Survivors:", survivorList);
-
     return (
-        <div>
-            <h1>Identity V Planner</h1>
+        <div style={{ display: "flex", justifyContent: "space-between"}}>
+            <Sidebar />
+            <MapBoard />
+            <div>Arrow (placeholder)</div>
         </div>
     );
 }
