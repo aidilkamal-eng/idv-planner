@@ -14,7 +14,7 @@ function DraggableHunterAbility({ ability }: DraggableHunterAbilityProps) {
     return (
         <div ref={ref}>
             <img src={ability.imagePath} style={{ width: 60, height: 60}}/>
-            <p>{ability.name}</p>
+            <p style={{color:'white'}}>{ability.name}</p>
         </div>
     );
 }

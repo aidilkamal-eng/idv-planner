@@ -14,7 +14,7 @@ function DraggableHunter({ hunter }: DraggableHunterProps) {
 
     return (
         <details ref={ref}>
-            <summary style={{ display: "flex" }}>
+            <summary style={{ display: "flex", color: 'white', alignItems:'center' }}>
                 <img src={hunter.imagePath} style={{ width: 65, height: 65}}/>
                 {hunter.name}
             </summary>

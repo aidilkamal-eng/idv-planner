@@ -3,6 +3,7 @@ import { DragDropProvider } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
 import type { PlacedIcon } from "./types/planner";
+import UtilitySidebar from "./components/UtilitySidebar";
 
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
     const [placedIcon, setPlacedIcons] = useState<PlacedIcon[]>([]); 
 
     return (
-        <div style={{ display: "flex", justifyContent: "space-between"}}>
+        <div style={{display: "flex", justifyContent: "space-between",}}>
             <DragDropProvider
                 onDragEnd={(event) => {
                     if (event.canceled) return;
@@ -41,8 +42,8 @@ function App() {
             >
             <Sidebar />
             <MapBoard mapRef={mapRef} placedIcons={placedIcon}/>
+            <UtilitySidebar />
             </DragDropProvider>
-            <div>Arrow (placeholder)</div>
         </div>
     );
 }

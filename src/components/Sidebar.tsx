@@ -4,7 +4,6 @@ import DraggableHunter from "./DraggableHunter"
 import DraggableSurvivor from "./DraggableSurvivor"
 
 export default function Sidebar() {
-
     return (
         <div>
             <div>

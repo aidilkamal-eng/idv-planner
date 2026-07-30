@@ -12,9 +12,9 @@ function DraggableSurvivor({ survivor }: DraggableSurvivorProps) {
     });
 
     return (
-        <div ref={ref} style={{ display: "flex" }}>
+        <div ref={ref} style={{ display: "flex", alignItems:'center' }}>
             <img src={survivor.imagePath} style={{ width: 65, height: 65}}/>
-            <p>{survivor.name}</p>
+            <p style={{ color: 'white'}}>{survivor.name}</p>
         </div>
     );
 }
