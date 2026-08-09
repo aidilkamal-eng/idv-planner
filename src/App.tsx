@@ -8,7 +8,24 @@ import UtilitySidebar from "./components/UtilitySidebar";
 
 function App() {
     const mapRef = useRef<HTMLDivElement | null>(null);
-    const [placedIcon, setPlacedIcons] = useState<PlacedIcon[]>([]); 
+    const [placedIcons, setPlacedIcons] = useState<PlacedIcon[]>([]);
+    const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
+
+    function updateIconRotation(instanceId: string, newRotation: number) {
+        setPlacedIcons((prev) =>
+            prev.map((icon) => 
+                icon.instanceId === instanceId ? { ...icon, rotation: newRotation } : icon
+            )
+        );
+    }
+
+    function updateIconScale(instanceId: string, newScale: number) {
+        setPlacedIcons((prev) =>
+            prev.map((icon) => 
+                icon.instanceId === instanceId ? { ...icon, scale: newScale } : icon
+            )
+        );
+    }
 
     return (
         <div style={{display: "flex", justifyContent: "space-between",}}>
@@ -41,7 +58,14 @@ function App() {
                 }}
             >
             <Sidebar />
-            <MapBoard mapRef={mapRef} placedIcons={placedIcon}/>
+            <MapBoard 
+                mapRef={mapRef} 
+                placedIcons={placedIcons} 
+                onSelectIcon={setSelectedInstanceId} 
+                selectedInstanceId={selectedInstanceId}
+                onUpdateRotation={updateIconRotation}
+                onUpdateScale={updateIconScale}
+            />
             <UtilitySidebar />
             </DragDropProvider>
         </div>
