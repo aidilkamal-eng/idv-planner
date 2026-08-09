@@ -11,6 +11,14 @@ function App() {
     const [placedIcons, setPlacedIcons] = useState<PlacedIcon[]>([]);
     const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
 
+    function updateIconPosition(instanceId: string, newX: number, newY: number) {
+        setPlacedIcons((prev) =>
+            prev.map((icon) => 
+                icon.instanceId === instanceId ? { ...icon, x: newX, y: newY } : icon
+            )
+        );
+    }
+
     function updateIconRotation(instanceId: string, newRotation: number) {
         setPlacedIcons((prev) =>
             prev.map((icon) => 
@@ -65,6 +73,7 @@ function App() {
                 selectedInstanceId={selectedInstanceId}
                 onUpdateRotation={updateIconRotation}
                 onUpdateScale={updateIconScale}
+                onUpdatePosition={updateIconPosition}
             />
             <UtilitySidebar />
             </DragDropProvider>

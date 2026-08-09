@@ -10,9 +10,10 @@ interface MapBoardProps {
     selectedInstanceId: string | null;
     onUpdateRotation: (instanceId: string, newRotation: number) => void;
     onUpdateScale: (instanceId: string, newScale: number) => void;
+    onUpdatePosition: (instanceId: string, newX: number, newY: number) => void;
 }
 
-export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale }: MapBoardProps) {
+export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition }: MapBoardProps) {
     useDroppable({ id: "map", element: mapRef });
 
     return (
@@ -24,6 +25,31 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                     <img
                         src={findImagePath(icon)}
                         onClick={() => onSelectIcon(icon.instanceId)}
+                        onMouseDown={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            const offsetX = e.clientX - icon.x - mapRef.current!.getBoundingClientRect().left;
+                            const offsetY = e.clientY - icon.y - mapRef.current!.getBoundingClientRect().top;
+
+                            function handleMouseMove(moveEvent: MouseEvent) {
+                                if (!mapRef.current) return;
+                                const mapRect = mapRef.current.getBoundingClientRect();
+
+                                const newX = moveEvent.clientX - mapRect.left - offsetX;
+                                const newY = moveEvent.clientY - mapRect.top - offsetY;
+
+                                onUpdatePosition(icon.instanceId, newX, newY);
+                            }
+
+                            function handleMouseUp() {
+                                window.removeEventListener("mousemove", handleMouseMove);
+                                window.removeEventListener("mouseup", handleMouseUp)
+                            }
+
+                            window.addEventListener("mousemove", handleMouseMove);
+                            window.addEventListener("mouseup", handleMouseUp);
+                        }}
                         style={{
                             position: "absolute",
                             left: icon.x,
