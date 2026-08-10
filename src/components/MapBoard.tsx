@@ -17,7 +17,17 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
     useDroppable({ id: "map", element: mapRef });
 
     return (
-        <div ref={mapRef} style={{ position: "relative", width: 901, height: 763 }}>
+        <div 
+            ref={mapRef} 
+            onClick={(e) => {
+                if (!mapRef.current) return;
+                const rect = mapRef.current.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                console.log(`x: ${Math.round(x)}, y: ${Math.round(y)}`);
+            }}
+            style={{ position: "relative", width: 901, height: 763 }}
+        >
             <img src="/assets/Maps/ArmsFactory.webp" alt="Arms Factory Map" style={{ width: "100%", height: "100%" }}/>
 
             {placedIcons.map((icon) => (

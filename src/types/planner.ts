@@ -19,3 +19,10 @@ export interface PlacedIcon {
     rotation: number;
     scale: number;
 }
+
+export interface MapObject {
+    id: string;
+    category: "cypher" | "rocketChair" | "pallet";
+    x: number;
+    y: number;
+}
