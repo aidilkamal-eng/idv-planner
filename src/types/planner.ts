@@ -1,4 +1,5 @@
 export type IconCategory = "hunter" | "ability" | "survivor" | "arrow";
+export type MapObjectCategory = "cypher" | "rocketChair" | "pallet";
 
 export interface DraggableItem {
     id: string;
@@ -22,7 +23,7 @@ export interface PlacedIcon {
 
 export interface MapObject {
     id: string;
-    category: "cypher" | "rocketChair" | "pallet";
+    category: MapObjectCategory;
     x: number;
     y: number;
 }

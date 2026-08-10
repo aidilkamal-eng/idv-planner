@@ -3,13 +3,18 @@ import { DragDropProvider } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
 import type { PlacedIcon } from "./types/planner";
+import type { MapObjectCategory } from "./types/planner";
 import UtilitySidebar from "./components/UtilitySidebar";
+import { armsFactoryObjects } from "./data/armsFactoryObjects";
 
 
 function App() {
     const mapRef = useRef<HTMLDivElement | null>(null);
     const [placedIcons, setPlacedIcons] = useState<PlacedIcon[]>([]);
     const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
+    const [visibleCategories, setVisibleCategories] = useState<Set<MapObjectCategory>>(
+        new Set(["cypher", "rocketChair", "pallet"])
+    );
 
     function updateIconPosition(instanceId: string, newX: number, newY: number) {
         setPlacedIcons((prev) =>
@@ -33,6 +38,24 @@ function App() {
                 icon.instanceId === instanceId ? { ...icon, scale: newScale } : icon
             )
         );
+    }
+
+    function toggleCategory(category: MapObjectCategory) {
+        setVisibleCategories((prev) => {
+            const next = new Set(prev);
+            if (next.has(category)) {
+                next.delete(category);
+            } else {
+                next.add(category);
+            }
+
+            return next;
+        });
+    }
+
+    function clearAllIcons() {
+        setPlacedIcons([]);
+        setSelectedInstanceId(null);
     }
 
     return (
@@ -74,8 +97,14 @@ function App() {
                 onUpdateRotation={updateIconRotation}
                 onUpdateScale={updateIconScale}
                 onUpdatePosition={updateIconPosition}
+                mapObjects={armsFactoryObjects}
+                visibleCategories={visibleCategories}
             />
-            <UtilitySidebar />
+            <UtilitySidebar 
+                visibleCategories={visibleCategories} 
+                onToggleCategory={toggleCategory}
+                clearAllIcons={clearAllIcons}
+            />
             </DragDropProvider>
         </div>
     );

@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
-import type { PlacedIcon } from "../types/planner";
+import type { MapObject, MapObjectCategory, PlacedIcon } from "../types/planner";
 import findImagePath from "../utils/findIconData";
 
 interface MapBoardProps {
@@ -11,9 +11,11 @@ interface MapBoardProps {
     onUpdateRotation: (instanceId: string, newRotation: number) => void;
     onUpdateScale: (instanceId: string, newScale: number) => void;
     onUpdatePosition: (instanceId: string, newX: number, newY: number) => void;
+    mapObjects: MapObject[];
+    visibleCategories: Set<MapObjectCategory>;
 }
 
-export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition }: MapBoardProps) {
+export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, visibleCategories }: MapBoardProps) {
     useDroppable({ id: "map", element: mapRef });
 
     return (
@@ -29,6 +31,24 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
             style={{ position: "relative", width: 901, height: 763 }}
         >
             <img src="/assets/Maps/ArmsFactory.webp" alt="Arms Factory Map" style={{ width: "100%", height: "100%" }}/>
+
+            {mapObjects
+                .filter((obj) => visibleCategories.has(obj.category))
+                .map((obj) => (
+                    <div
+                        key={obj.id}
+                        style={{
+                            position: "absolute",
+                            left: obj.x,
+                            top: obj.y,
+                            width: 20,
+                            height: 20,
+                            borderRadius: "50%",
+                            border: "2px solid yellow",
+                        }}
+                    />
+                ))
+            }
 
             {placedIcons.map((icon) => (
                 <div key={icon.instanceId}>
@@ -138,6 +158,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                     )}
                 </div>
             ))}
+
         </div>
     )
 }
