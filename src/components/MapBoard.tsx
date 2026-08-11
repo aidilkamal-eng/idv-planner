@@ -7,7 +7,7 @@ import mapObjectIcons from "../utils/mapObjectIcons";
 interface MapBoardProps {
     mapRef: RefObject<HTMLDivElement | null>;
     placedIcons: PlacedIcon[];
-    onSelectIcon: (instanceId: string) => void;
+    onSelectIcon: (instanceId: string | null) => void;
     selectedInstanceId: string | null;
     onUpdateRotation: (instanceId: string, newRotation: number) => void;
     onUpdateScale: (instanceId: string, newScale: number) => void;
@@ -23,6 +23,8 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
         <div 
             ref={mapRef} 
             onClick={(e) => {
+                onSelectIcon(null);
+
                 if (!mapRef.current) return;
                 const rect = mapRef.current.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -82,7 +84,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                                     window.addEventListener("mousemove", handleMouseMove);
                                     window.addEventListener("mouseup", handleMouseUp);
                                 }} 
-                                style={{ position:'absolute', left: icon.x + 50, top: icon.y, width: 14, height: 14}}
+                                style={{ position:'absolute', left: icon.x + 50, top: icon.y, width: 14, height: 14, zIndex: 10 }}
                             />
                                 
                             
@@ -116,7 +118,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                                     window.addEventListener("mousemove", handleMouseMove);
                                     window.addEventListener("mouseup", handleMouseUp);
                                 }} 
-                                style={{ position:'absolute', left: icon.x + 50, top: icon.y + 50, width: 17, height: 17}}
+                                style={{ position:'absolute', left: icon.x + 50, top: icon.y + 50, width: 17, height: 17, zIndex: 10 }}
                             />
                                 
                         </div>
@@ -124,7 +126,10 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
 
                     <img
                         src={findImagePath(icon)}
-                        onClick={() => onSelectIcon(icon.instanceId)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectIcon(icon.instanceId);
+                        }}
                         onMouseDown={(e) => {
                             e.preventDefault();
                             e.stopPropagation();

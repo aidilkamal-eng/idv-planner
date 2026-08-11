@@ -20,7 +20,7 @@ export default function UtilitySidebar({ visibleCategories, onToggleCategory, cl
         <div>
             <div>
                 {categories.map((cat) => (
-                    <label key={cat.value} style={{ display: "block" }}>
+                    <label key={cat.value} style={{ display: "block", color:"white" }}>
                         <input
                             type="checkbox"
                             checked={visibleCategories.has(cat.value)}
