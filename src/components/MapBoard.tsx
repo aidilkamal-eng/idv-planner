@@ -2,6 +2,7 @@ import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
 import type { MapObject, MapObjectCategory, PlacedIcon } from "../types/planner";
 import findImagePath from "../utils/findIconData";
+import mapObjectIcons from "../utils/mapObjectIcons";
 
 interface MapBoardProps {
     mapRef: RefObject<HTMLDivElement | null>;
@@ -35,16 +36,15 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
             {mapObjects
                 .filter((obj) => visibleCategories.has(obj.category))
                 .map((obj) => (
-                    <div
+                    <img
                         key={obj.id}
+                        src={mapObjectIcons[obj.category]}
                         style={{
                             position: "absolute",
                             left: obj.x,
                             top: obj.y,
                             width: 20,
                             height: 20,
-                            borderRadius: "50%",
-                            border: "2px solid yellow",
                         }}
                     />
                 ))
@@ -52,6 +52,76 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
 
             {placedIcons.map((icon) => (
                 <div key={icon.instanceId}>
+                    {icon.instanceId === selectedInstanceId && icon.category === "arrow" && (
+                        <div>
+                            <img
+                                src="/assets/Handles/rotate.png"
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+
+                                    function handleMouseMove(moveEvent: MouseEvent) {
+                                        if (!mapRef.current) return;
+
+                                        const mapRect = mapRef.current.getBoundingClientRect();
+                                        const centerX = mapRect.left + icon.x + 25;
+                                        const centerY = mapRect.top + icon.y + 25;
+
+                                        const deltaX = moveEvent.clientX - centerX;
+                                        const deltaY = moveEvent.clientY - centerY;
+                                        const angleDegree = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
+
+                                        onUpdateRotation(icon.instanceId, angleDegree);
+                                    }
+
+                                    function handleMouseUp() {
+                                        window.removeEventListener("mousemove", handleMouseMove);
+                                        window.removeEventListener("mouseup", handleMouseUp);
+                                    }
+
+                                    window.addEventListener("mousemove", handleMouseMove);
+                                    window.addEventListener("mouseup", handleMouseUp);
+                                }} 
+                                style={{ position:'absolute', left: icon.x + 50, top: icon.y, width: 14, height: 14}}
+                            />
+                                
+                            
+
+                            <img
+                                src="/assets/Handles/resize.webp"
+                                onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+
+                                    function handleMouseMove(moveEvent: MouseEvent) {
+                                        if (!mapRef.current) return;
+
+                                        const mapRect = mapRef.current.getBoundingClientRect();
+                                        const centerX = mapRect.left + icon.x + 25;
+                                        const centerY = mapRect.top + icon.y + 25;
+
+                                        const deltaX = moveEvent.clientX - centerX;
+                                        const deltaY = moveEvent.clientY - centerY;
+                                        const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+
+                                        const scale = distance / 50;
+                                        onUpdateScale(icon.instanceId, scale);
+                                    }
+
+                                    function handleMouseUp() {
+                                        window.removeEventListener("mousemove", handleMouseMove);
+                                        window.removeEventListener("mouseup", handleMouseUp);
+                                    }
+
+                                    window.addEventListener("mousemove", handleMouseMove);
+                                    window.addEventListener("mouseup", handleMouseUp);
+                                }} 
+                                style={{ position:'absolute', left: icon.x + 50, top: icon.y + 50, width: 17, height: 17}}
+                            />
+                                
+                        </div>
+                    )}
+
                     <img
                         src={findImagePath(icon)}
                         onClick={() => onSelectIcon(icon.instanceId)}
@@ -89,73 +159,6 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                             transform: `rotate(${icon.rotation}deg) scale(${icon.scale})`,
                         }}
                     />
-
-                    {icon.instanceId === selectedInstanceId && icon.category === "arrow" && (
-                        <div>
-                            <div
-                                onMouseDown={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-
-                                    function handleMouseMove(moveEvent: MouseEvent) {
-                                        if (!mapRef.current) return;
-
-                                        const mapRect = mapRef.current.getBoundingClientRect();
-                                        const centerX = mapRect.left + icon.x + 25;
-                                        const centerY = mapRect.top + icon.y + 25;
-
-                                        const deltaX = moveEvent.clientX - centerX;
-                                        const deltaY = moveEvent.clientY - centerY;
-                                        const angleDegree = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-
-                                        onUpdateRotation(icon.instanceId, angleDegree);
-                                    }
-
-                                    function handleMouseUp() {
-                                        window.removeEventListener("mousemove", handleMouseMove);
-                                        window.removeEventListener("mouseup", handleMouseUp);
-                                    }
-
-                                    window.addEventListener("mousemove", handleMouseMove);
-                                    window.addEventListener("mouseup", handleMouseUp);
-                                }} 
-                                style={{ position:'absolute', left: icon.x + 50, top: icon.y, background: 'red', width: 10, height:10}}>
-                                {/*RESERVED*/}
-                            </div>
-
-                            <div
-                                onMouseDown={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-
-                                    function handleMouseMove(moveEvent: MouseEvent) {
-                                        if (!mapRef.current) return;
-
-                                        const mapRect = mapRef.current.getBoundingClientRect();
-                                        const centerX = mapRect.left + icon.x + 25;
-                                        const centerY = mapRect.top + icon.y + 25;
-
-                                        const deltaX = moveEvent.clientX - centerX;
-                                        const deltaY = moveEvent.clientY - centerY;
-                                        const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
-
-                                        const scale = distance / 50;
-                                        onUpdateScale(icon.instanceId, scale);
-                                    }
-
-                                    function handleMouseUp() {
-                                        window.removeEventListener("mousemove", handleMouseMove);
-                                        window.removeEventListener("mouseup", handleMouseUp);
-                                    }
-
-                                    window.addEventListener("mousemove", handleMouseMove);
-                                    window.addEventListener("mouseup", handleMouseUp);
-                                }} 
-                                style={{ position:'absolute', left: icon.x + 50, top: icon.y + 50, background: 'blue', width: 10, height:10}}>
-                                {/*RESERVED*/}
-                            </div>
-                        </div>
-                    )}
                 </div>
             ))}
 

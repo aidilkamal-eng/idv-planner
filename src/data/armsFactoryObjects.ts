@@ -1,11 +1,11 @@
 import type { MapObject } from "../types/planner"
 
 export const armsFactoryObjects: MapObject[] = [
-    { id: "cypher-1", category: "cypher", x: 284, y: 92},
-    { id: "cypher-2", category: "cypher", x: 530, y: 118},
+    { id: "cypher-1", category: "cypher", x: 275, y: 81},
+    { id: "cypher-2", category: "cypher", x: 524, y: 101},
     { id: "cypher-3", category: "cypher", x: 291, y: 221},
     { id: "cypher-4", category: "cypher", x: 210, y: 281},
-    { id: "cypher-5", category: "cypher", x: 685, y: 200},
+    { id: "cypher-5", category: "cypher", x: 677, y: 190},
     { id: "cypher-6", category: "cypher", x: 722, y: 293},
     { id: "cypher-7", category: "cypher", x: 532, y: 357},
     { id: "cypher-8", category: "cypher", x: 469, y: 436},
