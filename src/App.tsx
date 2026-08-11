@@ -6,6 +6,7 @@ import type { PlacedIcon } from "./types/planner";
 import type { MapObjectCategory } from "./types/planner";
 import UtilitySidebar from "./components/UtilitySidebar";
 import { armsFactoryObjects } from "./data/armsFactoryObjects";
+import { toPng } from "html-to-image";
 
 
 function App() {
@@ -58,6 +59,17 @@ function App() {
         setSelectedInstanceId(null);
     }
 
+    async function saveMapAsImage() {
+        if (!mapRef.current) return;
+
+        const dataUrl = await toPng(mapRef.current);
+
+        const link = document.createElement("a");
+        link.download = "identity-v-plan.png";
+        link.href = dataUrl;
+        link.click();
+    }
+
     return (
         <div style={{display: "flex", justifyContent: "space-between",}}>
             <DragDropProvider
@@ -104,6 +116,7 @@ function App() {
                 visibleCategories={visibleCategories} 
                 onToggleCategory={toggleCategory}
                 clearAllIcons={clearAllIcons}
+                saveMapAsImage={saveMapAsImage}
             />
             </DragDropProvider>
         </div>

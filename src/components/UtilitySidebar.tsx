@@ -6,6 +6,7 @@ interface UtilitySidebarProps {
     visibleCategories: Set<MapObjectCategory>;
     onToggleCategory: (category: MapObjectCategory) => void;
     clearAllIcons: () => void;
+    saveMapAsImage: () => void;
 }
 
 const categories: { value: MapObjectCategory; label: string }[] = [
@@ -14,7 +15,7 @@ const categories: { value: MapObjectCategory; label: string }[] = [
     { value: "pallet", label: "Pallet" },
 ];
 
-export default function UtilitySidebar({ visibleCategories, onToggleCategory, clearAllIcons }: UtilitySidebarProps) {
+export default function UtilitySidebar({ visibleCategories, onToggleCategory, clearAllIcons, saveMapAsImage }: UtilitySidebarProps) {
     return (
         <div>
             <div>
@@ -37,6 +38,11 @@ export default function UtilitySidebar({ visibleCategories, onToggleCategory, cl
             <div>
                 <button onClick={() => clearAllIcons()}>
                     Clear All
+                </button>
+            </div>
+            <div>
+                <button onClick={() => saveMapAsImage()}>
+                    Save Image
                 </button>
             </div>
         </div>
