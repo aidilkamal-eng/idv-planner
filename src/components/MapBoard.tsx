@@ -159,8 +159,8 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                             position: "absolute",
                             left: icon.x,
                             top: icon.y,
-                            width: 50,
-                            height: 50,
+                            width: icon.category === "ability" ? 27 : 55,
+                            height: icon.category === "ability" ? 27 : 55,
                             transform: `rotate(${icon.rotation}deg) scale(${icon.scale})`,
                         }}
                     />

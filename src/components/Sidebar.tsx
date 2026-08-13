@@ -5,7 +5,7 @@ import DraggableSurvivor from "./DraggableSurvivor"
 
 export default function Sidebar() {
     return (
-        <div>
+        <div className="custom-scrollbar" style={{ height: "100vh", overflowY: "auto" }}>
             <div>
                 {hunterList.map((hunter) => (
                     <DraggableHunter key={hunter.id} hunter={hunter}/>

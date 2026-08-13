@@ -100,24 +100,32 @@ function App() {
                     setPlacedIcons((prev) => [...prev, newIcon]);
                 }}
             >
-            <Sidebar />
-            <MapBoard 
-                mapRef={mapRef} 
-                placedIcons={placedIcons} 
-                onSelectIcon={setSelectedInstanceId} 
-                selectedInstanceId={selectedInstanceId}
-                onUpdateRotation={updateIconRotation}
-                onUpdateScale={updateIconScale}
-                onUpdatePosition={updateIconPosition}
-                mapObjects={armsFactoryObjects}
-                visibleCategories={visibleCategories}
-            />
-            <UtilitySidebar 
-                visibleCategories={visibleCategories} 
-                onToggleCategory={toggleCategory}
-                clearAllIcons={clearAllIcons}
-                saveMapAsImage={saveMapAsImage}
-            />
+            <div style={{ flex: 1 }}>
+                <Sidebar />
+            </div>
+
+            <div style={{ flex: 2 }}>
+                <MapBoard 
+                    mapRef={mapRef} 
+                    placedIcons={placedIcons} 
+                    onSelectIcon={setSelectedInstanceId} 
+                    selectedInstanceId={selectedInstanceId}
+                    onUpdateRotation={updateIconRotation}
+                    onUpdateScale={updateIconScale}
+                    onUpdatePosition={updateIconPosition}
+                    mapObjects={armsFactoryObjects}
+                    visibleCategories={visibleCategories}
+                />
+            </div>
+
+            <div style={{ flex: 1 }}>
+                <UtilitySidebar 
+                    visibleCategories={visibleCategories} 
+                    onToggleCategory={toggleCategory}
+                    clearAllIcons={clearAllIcons}
+                    saveMapAsImage={saveMapAsImage}
+                />
+            </div>
             </DragDropProvider>
         </div>
     );
