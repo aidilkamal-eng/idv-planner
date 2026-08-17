@@ -15,7 +15,8 @@ export const hunterList: HunterConfig[] = [
         name: "Gamekeeper",
         imagePath: "assets/Hunter/NavGamekeeper.webp",
         abilities: [
-            { id: "gamekeeper-ability-1", name: "Trap", imagePath: "assets/Abilities/Trap.webp"}
+            { id: "gamekeeper-ability-1", name: "Trap", imagePath: "assets/Abilities/Trap.webp"},
+            { id: "gamekeeper-ability-2", name: "Chain Hook", imagePath: "assets/Abilities/ChainHook.webp"},
         ],
     },
 ]

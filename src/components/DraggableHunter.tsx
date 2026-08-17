@@ -13,14 +13,16 @@ function DraggableHunter({ hunter }: DraggableHunterProps) {
     });
 
     return (
-        <details ref={ref}>
-            <summary style={{ display: "flex", color: 'white', alignItems:'center' }}>
-                <img src={hunter.imagePath} style={{ width: 65, height: 65}}/>
-                {hunter.name}
+        <details ref={ref} className="sidebar-item-hunter">
+            <summary>
+                <img src={hunter.imagePath}/>
+                <span>{hunter.name}</span>
             </summary>
-            {hunter.abilities.map((ability) => (
-                <DraggableHunterAbility key={ability.id} ability={ability}/>
-            ))}
+            <div id="ability-card">
+                {hunter.abilities.map((ability) => (
+                    <DraggableHunterAbility key={ability.id} ability={ability}/>
+                ))}
+            </div>
         </details>
     )
 }

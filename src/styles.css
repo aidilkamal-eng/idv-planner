@@ -25,3 +25,83 @@ html, body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #777;
 }
+
+.sidebar-section {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+  margin-bottom: 20px;
+}
+
+.sidebar-title {
+  color: white;
+  text-align: center;
+  margin: 15px 0px;
+  font-size: large;
+}
+
+.sidebar-item-hunter {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0px;
+}
+
+.sidebar-item-hunter summary {
+  display: flex;
+  color: white;
+  align-items: center;
+}
+
+.sidebar-item-hunter summary img {
+  width: 65px;
+  height: 65px;
+}
+
+.sidebar-item-hunter summary span {
+  margin-left: 10px;
+}
+
+.sidebar-item-hunter #ability-card {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  justify-content: start;
+  align-items: center;
+}
+
+.sidebar-item-hunter #ability-item {
+  margin-top: 5px;
+  display: flex;
+  width: 80px;
+  height: 80px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-wrap: balance;
+}
+
+.sidebar-item-hunter #ability-item img {
+  width: 60px;
+  height: 60px;
+}
+
+.sidebar-item-survivor {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-item-survivor img {
+  width: 65px;
+  height: 65px;
+}
+
+.sidebar-item-survivor p {
+  color: white;
+  margin-left: 10px;
+}
