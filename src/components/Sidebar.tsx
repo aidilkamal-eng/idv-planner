@@ -10,6 +10,9 @@ export default function Sidebar() {
                 <div className="sidebar-title">
                     <p>HUNTER</p>
                 </div>
+                <div id="sidebar-title-note">
+                    <p>*click on the hunter card to reveal their abilities</p>
+                </div>
                 {hunterList.map((hunter) => (
                     <DraggableHunter key={hunter.id} hunter={hunter}/>
                 ))}

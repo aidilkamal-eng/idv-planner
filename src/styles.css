@@ -34,6 +34,13 @@ html, body {
   margin-bottom: 20px;
 }
 
+.sidebar-section #sidebar-title-note {
+  margin-left: 5px;
+  font-size: x-small;
+  color: white;
+  font-weight: 100;
+}
+
 .sidebar-title {
   color: white;
   text-align: center;
