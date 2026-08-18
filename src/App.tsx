@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { DragDropProvider } from "@dnd-kit/react";
+import { DragDropProvider, DragOverlay } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
 import type { PlacedIcon } from "./types/planner";
@@ -7,6 +7,7 @@ import type { MapObjectCategory } from "./types/planner";
 import UtilitySidebar from "./components/UtilitySidebar";
 import { armsFactoryObjects } from "./data/armsFactoryObjects";
 import { toPng } from "html-to-image";
+import { findImagePathByIdAndCategory } from "./utils/findIconData";
 
 
 function App() {
@@ -126,6 +127,16 @@ function App() {
                     saveMapAsImage={saveMapAsImage}
                 />
             </div>
+
+            <DragOverlay>
+                {(source) => (
+                    <img
+                        src={findImagePathByIdAndCategory(String(source.id), String(source.data.category))}
+                        style={{ width: 50, height: 50}}
+                    />
+                )}
+            </DragOverlay>
+
             </DragDropProvider>
         </div>
     );

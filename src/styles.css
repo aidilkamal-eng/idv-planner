@@ -66,9 +66,11 @@ html, body {
 .sidebar-item-hunter #ability-card {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 5px;
   justify-content: start;
   align-items: center;
+  max-width: 250px;
 }
 
 .sidebar-item-hunter #ability-item {

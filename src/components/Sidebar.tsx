@@ -8,7 +8,7 @@ export default function Sidebar() {
         <div className="custom-scrollbar" style={{ height: "100vh", overflowY: "auto" }}>
             <div className="sidebar-section">
                 <div className="sidebar-title">
-                    <text>HUNTER</text>
+                    <p>HUNTER</p>
                 </div>
                 {hunterList.map((hunter) => (
                     <DraggableHunter key={hunter.id} hunter={hunter}/>
@@ -16,7 +16,7 @@ export default function Sidebar() {
             </div>
             <div className="sidebar-section">
                 <div className="sidebar-title">
-                    <text>SURVIVOR</text>
+                    <p>SURVIVOR</p>
                 </div>
                 {survivorList.map((survivor) => (
                     <DraggableSurvivor key={survivor.id} survivor={survivor} />

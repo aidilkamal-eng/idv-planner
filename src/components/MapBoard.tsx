@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
 import type { MapObject, MapObjectCategory, PlacedIcon } from "../types/planner";
-import findImagePath from "../utils/findIconData";
+import { findImagePath } from "../utils/findIconData";
 import mapObjectIcons from "../utils/mapObjectIcons";
 
 interface MapBoardProps {
