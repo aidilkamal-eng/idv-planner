@@ -12,8 +12,8 @@ function DraggableArrow({ arrow }: DraggableArrowProps) {
     });
 
     return (
-        <div ref={ref} style={{ display: "flex", justifyContent:'flex-start'}}>
-            <img src={arrow.imagePath} style={{ width: 65, height: 65}}/>
+        <div ref={ref} id="arrow-items">
+            <img src={arrow.imagePath}/>
         </div>
     );
 }

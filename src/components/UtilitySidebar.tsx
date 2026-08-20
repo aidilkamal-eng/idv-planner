@@ -18,30 +18,30 @@ const categories: { value: MapObjectCategory; label: string }[] = [
 export default function UtilitySidebar({ visibleCategories, onToggleCategory, clearAllIcons, saveMapAsImage }: UtilitySidebarProps) {
     return (
         <div>
-            <div>
+            <div className="utility-sidebar-section">
                 {categories.map((cat) => (
-                    <label key={cat.value} style={{ display: "block", color:"white" }}>
+                    <label key={cat.value} id="category-container">
                         <input
                             type="checkbox"
                             checked={visibleCategories.has(cat.value)}
                             onChange={() => onToggleCategory(cat.value)}
                         />
-                        {cat.label}
+                        <span>
+                            {cat.label}
+                        </span>
                     </label>
                 ))}
             </div>
-            <div>
+            <div className="utility-sidebar-section" id="arrow-card">
                 {arrowList.map((arrow) => (
                     <DraggableArrow key={arrow.id} arrow={arrow}/>
                 ))}
             </div>
-            <div>
-                <button onClick={() => clearAllIcons()}>
+            <div className="utility-sidebar-section utility-button-group">
+                <button className="utility-button" onClick={() => clearAllIcons()}>
                     Clear All
                 </button>
-            </div>
-            <div>
-                <button onClick={() => saveMapAsImage()}>
+                <button className="utility-button utility-button-primary" onClick={() => saveMapAsImage()}>
                     Save Image
                 </button>
             </div>
