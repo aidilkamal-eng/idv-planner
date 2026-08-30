@@ -1,75 +1,139 @@
-# React + TypeScript + Vite
+<p align="center">
+  <a href="#idv-planner">🇬🇧 English</a> •
+  <a href="#idv-planner-bahasa-indonesia">🇮🇩 Bahasa Indonesia</a>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# IDV Planner
 
-Currently, two official plugins are available:
+A web-based strategy planner for **Identity V**. Drag and drop hunters, hunter abilities, survivors, and arrows onto interactive map layouts to plan strategies, mark cyphers, rocket chairs, and pallets, then export your plan as an image.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![IDV Planner Screenshot](assets/screenshot.png)
 
-## React Compiler
+**🔗 Live Demo:** [idv-planner.vercel.app](https://idv-planner.vercel.app/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- 🖱️ **Drag & drop** hunters, hunter abilities, survivors, and arrows directly onto the map
+- 🔄 **Rotate & resize** placed arrow icons using on-map handles
+- 📍 **Move** placed icons freely around the map
+- 👁️ **Toggle visibility** of map objects (cyphers, rocket chairs, pallets) by category
+- 🧹 **Clear all** placed icons with one click
+- 💾 **Export** your finished plan as a PNG image
+- 📖 Expandable hunter cards showing their abilities
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/) — build tool & dev server
+- [@dnd-kit/react](https://next.dndkit.com/) — drag-and-drop functionality
+- [html-to-image](https://github.com/bubkoo/html-to-image) — exporting the map as an image
+- [ESLint](https://eslint.org/) + [typescript-eslint](https://typescript-eslint.io/) — linting
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
 
+- [Node.js](https://nodejs.org/) (recommended: latest LTS)
+- npm (comes with Node.js)
+
+### Installation
+
+```bash
+git clone <repository-url>
+cd idv-planner
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Running the Dev Server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+The app will be available at `http://localhost:5173` (default Vite port).
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+### Other Scripts
+
+| Script | Description |
+| --- | --- |
+| `npm run lint` | Run ESLint checks |
+| `npm run preview` | Preview the production build locally |
+
+---
+
+# IDV Planner (Bahasa Indonesia)
+
+Sebuah aplikasi web perencana strategi untuk **Identity V**. Seret dan letakkan (drag & drop) hunter, kemampuan hunter, survivor, dan arrow ke peta interaktif untuk menyusun strategi, menandai cypher, rocket chair, dan pallet, lalu ekspor rencana kamu sebagai gambar.
+
+**🔗 Live Demo:** [idv-planner.vercel.app](https://idv-planner.vercel.app/)
+
+## Fitur
+
+- 🖱️ **Drag & drop** hunter, kemampuan hunter, survivor, dan arrow langsung ke peta
+- 🔄 **Putar & ubah ukuran** ikon arrow yang sudah diletakkan menggunakan handle di peta
+- 📍 **Pindahkan** ikon yang sudah diletakkan secara bebas di peta
+- 👁️ **Tampilkan/sembunyikan** objek peta (cypher, rocket chair, pallet) per kategori
+- 🧹 **Hapus semua** ikon yang diletakkan dengan satu klik
+- 💾 **Ekspor** rencana yang sudah jadi sebagai gambar PNG
+- 📖 Kartu hunter yang bisa dibuka untuk menampilkan daftar kemampuannya
+
+## Teknologi yang Digunakan
+
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vite.dev/) — build tool & dev server
+- [@dnd-kit/react](https://next.dndkit.com/) — fungsi drag-and-drop
+- [html-to-image](https://github.com/bubkoo/html-to-image) — mengekspor peta menjadi gambar
+- [ESLint](https://eslint.org/) + [typescript-eslint](https://typescript-eslint.io/) — linting kode
+
+## Memulai
+
+### Prasyarat
+
+- [Node.js](https://nodejs.org/) (disarankan versi LTS terbaru)
+- npm (sudah termasuk saat instal Node.js)
+
+### Instalasi
+
+```bash
+git clone <repository-url>
+cd idv-planner
+npm install
+```
+
+### Menjalankan Dev Server
+
+```bash
+npm run dev
+```
+
+Aplikasi akan berjalan di `http://localhost:5173` (port default Vite).
+
+### Build untuk Produksi
+
+```bash
+npm run build
+```
+
+### Script Lainnya
+
+| Script | Deskripsi |
+| --- | --- |
+| `npm run lint` | Menjalankan pengecekan ESLint |
+| `npm run preview` | Melihat pratinjau hasil build produksi secara lokal |
+
+---
+
+## Contact / Kontak
+
+- 💼 LinkedIn: [linkedin.com/in/aidilkamal](https://linkedin.com/in/aidilkamal)
+- 📧 Email: [aidilkamal.eng@gmail.com](mailto:aidilkamal.eng@gmail.com)
+
+---
+
+© 2026 M. Aidil Kamal Adlim. All rights reserved.
