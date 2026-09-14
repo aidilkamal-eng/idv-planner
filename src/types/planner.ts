@@ -27,3 +27,14 @@ export interface MapObject {
     x: number;
     y: number;
 }
+
+export interface DrawnLine {
+    instanceId: string;
+    points: Coordinate[];
+    isClosed: boolean;
+}
+
+export interface Coordinate {
+    x: number;
+    y: number;
+}
