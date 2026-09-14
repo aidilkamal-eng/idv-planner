@@ -99,6 +99,7 @@ export const hunterList: HunterConfig[] = [
         abilities: [
             { id: "madEyes-ability-1", name: "Portable Console", imagePath: "assets/Abilities/Portable_Console.webp"},
             { id: "madEyes-ability-2", name: "Overclock", imagePath: "assets/Abilities/Overclock.webp"},
+            { id: "madEyes-ability-3", name: "Fence", imagePath: "assets/Abilities/External_Trait_Fence.webp"},
         ],
     },
 
@@ -218,6 +219,7 @@ export const hunterList: HunterConfig[] = [
         abilities: [
             { id: "naiad-ability-1", name: "Spearfishing", imagePath: "assets/Abilities/Spearfishing.webp"},
             { id: "naiad-ability-2", name: "Surging Tides & Billowing Waves", imagePath: "assets/Abilities/SurgingTides.webp"},
+            { id: "naiad-ability-3", name: "Darkest Depths", imagePath: "assets/Abilities/DarkestDepths.webp"},
         ],
     },
 
