@@ -1,8 +1,9 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
-import type { MapObject, MapObjectCategory, PlacedIcon } from "../types/planner";
+import type { DrawnLine, MapObject, MapObjectCategory, PlacedIcon, Coordinate } from "../types/planner";
 import { findImagePath } from "../utils/findIconData";
 import mapObjectIcons from "../utils/mapObjectIcons";
+import { coordinatesToSvgPoints } from "../utils/turnCoordinateToSvgPoints";
 
 interface MapBoardProps {
     mapRef: RefObject<HTMLDivElement | null>;
@@ -14,24 +15,30 @@ interface MapBoardProps {
     onUpdatePosition: (instanceId: string, newX: number, newY: number) => void;
     mapObjects: MapObject[];
     visibleCategories: Set<MapObjectCategory>;
+    onMapClick: (x: number, y: number) => void;
+    drawMode: boolean;
+    drawnLine: DrawnLine[];
+    ongoingPoint: Coordinate[];
 }
 
-export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, visibleCategories }: MapBoardProps) {
+export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, visibleCategories, onMapClick, drawMode, drawnLine, ongoingPoint }: MapBoardProps) {
     useDroppable({ id: "map", element: mapRef });
 
     return (
         <div 
             ref={mapRef} 
             onClick={(e) => {
-                onSelectIcon(null);
-
+                if (drawMode === false) {
+                    onSelectIcon(null);
+                }
+                
                 if (!mapRef.current) return;
                 const rect = mapRef.current.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                console.log(`x: ${Math.round(x)}, y: ${Math.round(y)}`);
+                onMapClick(x, y);
             }}
-            style={{ position: "relative", width: 901, height: 763 }}
+            style={{ position: "relative", width: 901, height: 763, cursor: drawMode === true ? "crosshair" : "default" }}
         >
             <img src="/assets/Maps/ArmsFactory.webp" alt="Arms Factory Map" style={{ width: "100%", height: "100%" }}/>
 
@@ -166,6 +173,18 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                     />
                 </div>
             ))}
+
+            <svg style={{ position: "absolute", top: 0, left: 0, width: 901, height: 763, pointerEvents: "none" }}>
+                {drawnLine.map((line) => (
+                    line.isClosed 
+                        ?   <polygon key={line.instanceId} points={coordinatesToSvgPoints(line.points)} stroke="white" fill="none"/>
+                        :   <polyline key={line.instanceId} points={coordinatesToSvgPoints(line.points)} stroke="white" fill="none"/>
+                ))}
+
+                {ongoingPoint.length > 0 && (
+                    <polyline points={coordinatesToSvgPoints(ongoingPoint)} stroke="white" fill="none"/>
+                )}
+            </svg>
 
         </div>
     )

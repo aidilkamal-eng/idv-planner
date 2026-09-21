@@ -7,6 +7,8 @@ interface UtilitySidebarProps {
     onToggleCategory: (category: MapObjectCategory) => void;
     clearAllIcons: () => void;
     saveMapAsImage: () => void;
+    toggleDrawMode: () => void;
+    drawMode: boolean;
 }
 
 const categories: { value: MapObjectCategory; label: string }[] = [
@@ -15,7 +17,7 @@ const categories: { value: MapObjectCategory; label: string }[] = [
     { value: "pallet", label: "Pallet" },
 ];
 
-export default function UtilitySidebar({ visibleCategories, onToggleCategory, clearAllIcons, saveMapAsImage }: UtilitySidebarProps) {
+export default function UtilitySidebar({ visibleCategories, onToggleCategory, clearAllIcons, saveMapAsImage, toggleDrawMode, drawMode }: UtilitySidebarProps) {
     return (
         <div>
             <div className="utility-sidebar-section">
@@ -31,6 +33,11 @@ export default function UtilitySidebar({ visibleCategories, onToggleCategory, cl
                         </span>
                     </label>
                 ))}
+            </div>
+            <div className="utility-sidebar-section utility-button-group">
+                <button className="utility-button utility-button-primary" style={{borderColor: drawMode === true ? "#cc2727" : "#4a90d9", color: drawMode === true ? "#cc2727" : "#4a90d9",}} onClick={() => toggleDrawMode()}>
+                    {drawMode === true ? "Stop drawing" : "Start drawing"}
+                </button>
             </div>
             <div className="utility-sidebar-section" id="arrow-card">
                 {arrowList.map((arrow) => (
