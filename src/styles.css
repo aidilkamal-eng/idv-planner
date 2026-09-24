@@ -35,9 +35,19 @@ html, body {
 .sidebar-section {
   border: 1px solid grey;
   border-radius: 5px;
-  padding: 5px;
   margin: 5px;
   margin-bottom: 20px;
+}
+
+.sidebar-section summary {
+  list-style: none;
+  cursor: pointer;
+  display: block;
+  padding: 5px;
+}
+
+.sidebar-section summary::-webkit-details-marker {
+  display: none;
 }
 
 .sidebar-section #sidebar-title-note {
