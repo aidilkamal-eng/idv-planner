@@ -19,6 +19,7 @@ A web-based strategy planner for **Identity V**. Drag and drop hunters, hunter a
 - 👁️ **Toggle visibility** of map objects (cyphers, rocket chairs, pallets) by category
 - 🧹 **Clear all** placed icons with one click
 - 💾 **Export** your finished plan as a PNG image
+- ✏️ **Draw lines** by clicking points on the map, forming open lines or closed shapes
 - 📖 Expandable hunter cards showing their abilities
 
 ## Tech Stack
@@ -81,6 +82,7 @@ Sebuah aplikasi web perencana strategi untuk **Identity V**. Seret dan letakkan 
 - 👁️ **Tampilkan/sembunyikan** objek peta (cypher, rocket chair, pallet) per kategori
 - 🧹 **Hapus semua** ikon yang diletakkan dengan satu klik
 - 💾 **Ekspor** rencana yang sudah jadi sebagai gambar PNG
+- ✏️ **Gambar garis** dengan mengklik titik-titik di peta, membentuk garis terbuka atau bentuk tertutup
 - 📖 Kartu hunter yang bisa dibuka untuk menampilkan daftar kemampuannya
 
 ## Teknologi yang Digunakan
