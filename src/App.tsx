@@ -3,7 +3,6 @@ import { DragDropProvider, DragOverlay } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
 import type { Coordinate, DrawnLine, PlacedIcon } from "./types/planner";
-import type { MapObjectCategory } from "./types/planner";
 import UtilitySidebar from "./components/UtilitySidebar";
 import { armsFactoryObjects } from "./data/armsFactoryObjects";
 import { toPng } from "html-to-image";
@@ -14,9 +13,6 @@ function App() {
     const mapRef = useRef<HTMLDivElement | null>(null);
     const [placedIcons, setPlacedIcons] = useState<PlacedIcon[]>([]);
     const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
-    const [visibleCategories, setVisibleCategories] = useState<Set<MapObjectCategory>>(
-        new Set(["cypher", "rocketChair", "pallet"])
-    );
     const [drawMode, setDrawMode] = useState<boolean>(false);
     const [ongoingPoint, setOngoingPoint] = useState<Coordinate[]>([]);
     const [drawnLine, setDrawnLine] = useState<DrawnLine[]>([]);
@@ -43,19 +39,6 @@ function App() {
                 icon.instanceId === instanceId ? { ...icon, scale: newScale } : icon
             )
         );
-    }
-
-    function toggleCategory(category: MapObjectCategory) {
-        setVisibleCategories((prev) => {
-            const next = new Set(prev);
-            if (next.has(category)) {
-                next.delete(category);
-            } else {
-                next.add(category);
-            }
-
-            return next;
-        });
     }
 
     function clearAllIcons() {
@@ -170,7 +153,6 @@ function App() {
                     onUpdateScale={updateIconScale}
                     onUpdatePosition={updateIconPosition}
                     mapObjects={armsFactoryObjects}
-                    visibleCategories={visibleCategories}
                     onMapClick={handleMapClick}
                     drawMode={drawMode}
                     drawnLine={drawnLine}
@@ -180,8 +162,6 @@ function App() {
 
             <div style={{ flex: 1 }}>
                 <UtilitySidebar 
-                    visibleCategories={visibleCategories} 
-                    onToggleCategory={toggleCategory}
                     clearAllIcons={clearAllIcons}
                     saveMapAsImage={saveMapAsImage}
                     toggleDrawMode={toggleDrawMode}

@@ -1,9 +1,10 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
-import type { DrawnLine, MapObject, MapObjectCategory, PlacedIcon, Coordinate } from "../types/planner";
+import type { DrawnLine, MapObject, PlacedIcon, Coordinate } from "../types/planner";
 import { findImagePath } from "../utils/findIconData";
 import mapObjectIcons from "../utils/mapObjectIcons";
 import { coordinatesToSvgPoints } from "../utils/turnCoordinateToSvgPoints";
+import { usePlannerStore } from "../store/usePlannerStore";
 
 interface MapBoardProps {
     mapRef: RefObject<HTMLDivElement | null>;
@@ -14,15 +15,15 @@ interface MapBoardProps {
     onUpdateScale: (instanceId: string, newScale: number) => void;
     onUpdatePosition: (instanceId: string, newX: number, newY: number) => void;
     mapObjects: MapObject[];
-    visibleCategories: Set<MapObjectCategory>;
     onMapClick: (x: number, y: number) => void;
     drawMode: boolean;
     drawnLine: DrawnLine[];
     ongoingPoint: Coordinate[];
 }
 
-export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, visibleCategories, onMapClick, drawMode, drawnLine, ongoingPoint }: MapBoardProps) {
+export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, onMapClick, drawMode, drawnLine, ongoingPoint }: MapBoardProps) {
     useDroppable({ id: "map", element: mapRef });
+    const visibleCategories = usePlannerStore((s) => s.visibleCategories);
 
     return (
         <div 
