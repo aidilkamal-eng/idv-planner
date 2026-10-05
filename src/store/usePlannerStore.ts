@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import type { Coordinate, DrawnLine, MapObjectCategory } from "../types/planner";
+import { isNearPoint } from "../utils/isNearPoint"
+
 
 interface PlannerState {
     drawMode: boolean;
@@ -11,6 +13,8 @@ interface PlannerState {
     ongoingPoint: Coordinate[];
     drawnLine: DrawnLine[];
     finalizeLine: (isClosed: boolean) => void;
+
+    addPoint: (x: number, y: number) => void;
 }
 
 export const usePlannerStore = create<PlannerState>()((set, get) => ({
@@ -56,5 +60,21 @@ export const usePlannerStore = create<PlannerState>()((set, get) => ({
                 ongoingPoint: [],
                 drawMode: false,
             };
-        })
+        }),
+    
+    addPoint: (x, y) => {
+        const { drawMode, ongoingPoint, finalizeLine } = get();
+        if (!drawMode) return;
+
+        const currentPos: Coordinate = {
+            x,
+            y
+        }
+
+        if (ongoingPoint.length > 0 && isNearPoint(currentPos, ongoingPoint[0], 10)) {
+            finalizeLine(true);
+        } else {
+            set({ ongoingPoint: [...ongoingPoint, currentPos]});
+        }
+    }
 }));
