@@ -6,8 +6,6 @@ import { usePlannerStore } from "../store/usePlannerStore";
 interface UtilitySidebarProps {
     clearAllIcons: () => void;
     saveMapAsImage: () => void;
-    toggleDrawMode: () => void;
-    drawMode: boolean;
 }
 
 const categories: { value: MapObjectCategory; label: string }[] = [
@@ -16,9 +14,11 @@ const categories: { value: MapObjectCategory; label: string }[] = [
     { value: "pallet", label: "Pallet" },
 ];
 
-export default function UtilitySidebar({ clearAllIcons, saveMapAsImage, toggleDrawMode, drawMode }: UtilitySidebarProps) {
+export default function UtilitySidebar({ clearAllIcons, saveMapAsImage }: UtilitySidebarProps) {
     const visibleCategories = usePlannerStore((s) => s.visibleCategories);
     const onToggleCategory = usePlannerStore((s) => s.toggleCategory);
+    const drawMode = usePlannerStore((s) => s.drawMode);
+    const toggleDrawMode = usePlannerStore((s) => s.toggleDrawMode);
     
     return (
         <div>

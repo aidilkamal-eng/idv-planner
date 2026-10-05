@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
-import type { DrawnLine, MapObject, PlacedIcon, Coordinate } from "../types/planner";
+import type { MapObject, PlacedIcon } from "../types/planner";
 import { findImagePath } from "../utils/findIconData";
 import mapObjectIcons from "../utils/mapObjectIcons";
 import { coordinatesToSvgPoints } from "../utils/turnCoordinateToSvgPoints";
@@ -15,15 +15,15 @@ interface MapBoardProps {
     onUpdateScale: (instanceId: string, newScale: number) => void;
     onUpdatePosition: (instanceId: string, newX: number, newY: number) => void;
     mapObjects: MapObject[];
-    onMapClick: (x: number, y: number) => void;
-    drawMode: boolean;
-    drawnLine: DrawnLine[];
-    ongoingPoint: Coordinate[];
 }
 
-export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, onMapClick, drawMode, drawnLine, ongoingPoint }: MapBoardProps) {
+export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects }: MapBoardProps) {
     useDroppable({ id: "map", element: mapRef });
     const visibleCategories = usePlannerStore((s) => s.visibleCategories);
+    const drawMode = usePlannerStore((s) => s.drawMode);
+    const drawnLine = usePlannerStore((s) => s.drawnLine);
+    const ongoingPoint = usePlannerStore((s) => s.ongoingPoint);
+    const onMapClick = usePlannerStore((s) => s.addPoint);
 
     return (
         <div 
