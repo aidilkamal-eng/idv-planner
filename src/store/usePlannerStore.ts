@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { MapObjectCategory } from "../types/planner";
+import type { Coordinate, DrawnLine, MapObjectCategory } from "../types/planner";
 
 interface PlannerState {
     drawMode: boolean;
@@ -7,14 +7,24 @@ interface PlannerState {
 
     visibleCategories: Set<MapObjectCategory>;
     toggleCategory: (category: MapObjectCategory) => void;
+
+    ongoingPoint: Coordinate[];
+    drawnLine: DrawnLine[];
+    finalizeLine: (isClosed: boolean) => void;
 }
 
-export const usePlannerStore = create<PlannerState>()((set) => ({
+export const usePlannerStore = create<PlannerState>()((set, get) => ({
     drawMode: false,
-    toggleDrawMode: () => set((state) => ({ drawMode: !state.drawMode })),
+    toggleDrawMode: () => {
+        if (get().drawMode) {
+            get().finalizeLine(false);
+        } else {
+            set({ drawMode: true });
+        }
+    },
 
     visibleCategories: new Set(["cypher", "rocketChair", "pallet"]),
-    toggleCategory: (category: MapObjectCategory) =>
+    toggleCategory: (category) =>
         set((state) => {
             const next = new Set(state.visibleCategories);
             if (next.has(category)) {
@@ -25,4 +35,26 @@ export const usePlannerStore = create<PlannerState>()((set) => ({
 
             return { visibleCategories: next }
         }),
+
+    ongoingPoint: [],
+    drawnLine: [],
+    
+    finalizeLine: (isClosed) => 
+        set((state) => {
+            if (state.ongoingPoint.length < 2) {
+                return { ongoingPoint: [], drawMode: false }
+            }
+
+            const newLine: DrawnLine = {
+                instanceId: crypto.randomUUID(),
+                points: state.ongoingPoint,
+                isClosed: isClosed,
+            };
+
+            return {
+                drawnLine: [...state.drawnLine, newLine],
+                ongoingPoint: [],
+                drawMode: false,
+            };
+        })
 }));
