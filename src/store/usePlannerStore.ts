@@ -21,7 +21,6 @@ interface PlannerState {
     ongoingPoint: Coordinate[];
     drawnLine: DrawnLine[];
     finalizeLine: (isClosed: boolean) => void;
-    clearDrawnLine: () => void;
 
     addPoint: (x: number, y: number) => void;
 }
@@ -94,10 +93,6 @@ export const usePlannerStore = create<PlannerState>()((set, get) => ({
                 drawMode: false,
             };
         }),
-
-    clearDrawnLine: () => {
-        set({drawnLine: []})
-    },
     
     addPoint: (x, y) => {
         const { drawMode, ongoingPoint, finalizeLine } = get();

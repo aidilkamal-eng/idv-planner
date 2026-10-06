@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { DragDropProvider, DragOverlay } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
@@ -12,40 +12,8 @@ import { usePlannerStore } from "./store/usePlannerStore";
 
 function App() {
     const mapRef = useRef<HTMLDivElement | null>(null);
-    const [placedIcons, setPlacedIcons] = useState<PlacedIcon[]>([]);
-    const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
 
-    const clearDrawnLine = usePlannerStore((s) => s.clearDrawnLine);
-
-    function updateIconPosition(instanceId: string, newX: number, newY: number) {
-        setPlacedIcons((prev) =>
-            prev.map((icon) => 
-                icon.instanceId === instanceId ? { ...icon, x: newX, y: newY } : icon
-            )
-        );
-    }
-
-    function updateIconRotation(instanceId: string, newRotation: number) {
-        setPlacedIcons((prev) =>
-            prev.map((icon) => 
-                icon.instanceId === instanceId ? { ...icon, rotation: newRotation } : icon
-            )
-        );
-    }
-
-    function updateIconScale(instanceId: string, newScale: number) {
-        setPlacedIcons((prev) =>
-            prev.map((icon) => 
-                icon.instanceId === instanceId ? { ...icon, scale: newScale } : icon
-            )
-        );
-    }
-
-    function clearAllIcons() {
-        setPlacedIcons([]);
-        setSelectedInstanceId(null);
-        clearDrawnLine();
-    }
+    const addIcon = usePlannerStore((s) => s.addIcon);
 
     async function saveMapAsImage() {
         if (!mapRef.current) return;
@@ -85,7 +53,7 @@ function App() {
                         scale: 1,
                     };
 
-                    setPlacedIcons((prev) => [...prev, newIcon]);
+                    addIcon(newIcon);
                 }}
             >
             <div style={{ flex: 1 }}>
@@ -94,20 +62,13 @@ function App() {
 
             <div style={{ flex: 2 }}>
                 <MapBoard 
-                    mapRef={mapRef} 
-                    placedIcons={placedIcons} 
-                    onSelectIcon={setSelectedInstanceId} 
-                    selectedInstanceId={selectedInstanceId}
-                    onUpdateRotation={updateIconRotation}
-                    onUpdateScale={updateIconScale}
-                    onUpdatePosition={updateIconPosition}
+                    mapRef={mapRef}
                     mapObjects={armsFactoryObjects}
                 />
             </div>
 
             <div style={{ flex: 1 }}>
                 <UtilitySidebar 
-                    clearAllIcons={clearAllIcons}
                     saveMapAsImage={saveMapAsImage}
                 />
             </div>
