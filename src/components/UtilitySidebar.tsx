@@ -1,14 +1,10 @@
 import { arrowList } from "../data/arrowData";
 import DraggableArrow from "./DraggableArrow";
 import type { MapObjectCategory } from "../types/planner";
+import { usePlannerStore } from "../store/usePlannerStore";
 
 interface UtilitySidebarProps {
-    visibleCategories: Set<MapObjectCategory>;
-    onToggleCategory: (category: MapObjectCategory) => void;
-    clearAllIcons: () => void;
     saveMapAsImage: () => void;
-    toggleDrawMode: () => void;
-    drawMode: boolean;
 }
 
 const categories: { value: MapObjectCategory; label: string }[] = [
@@ -17,7 +13,13 @@ const categories: { value: MapObjectCategory; label: string }[] = [
     { value: "pallet", label: "Pallet" },
 ];
 
-export default function UtilitySidebar({ visibleCategories, onToggleCategory, clearAllIcons, saveMapAsImage, toggleDrawMode, drawMode }: UtilitySidebarProps) {
+export default function UtilitySidebar({ saveMapAsImage }: UtilitySidebarProps) {
+    const visibleCategories = usePlannerStore((s) => s.visibleCategories);
+    const onToggleCategory = usePlannerStore((s) => s.toggleCategory);
+    const drawMode = usePlannerStore((s) => s.drawMode);
+    const toggleDrawMode = usePlannerStore((s) => s.toggleDrawMode);
+    const clearAllIcons = usePlannerStore((s) => s.clearAllIcons);
+    
     return (
         <div>
             <div className="utility-sidebar-section">

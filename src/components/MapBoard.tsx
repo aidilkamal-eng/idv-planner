@@ -1,35 +1,34 @@
 import { useDroppable } from "@dnd-kit/react";
 import type { RefObject } from "react";
-import type { DrawnLine, MapObject, MapObjectCategory, PlacedIcon, Coordinate } from "../types/planner";
+import type { MapObject } from "../types/planner";
 import { findImagePath } from "../utils/findIconData";
 import mapObjectIcons from "../utils/mapObjectIcons";
 import { coordinatesToSvgPoints } from "../utils/turnCoordinateToSvgPoints";
+import { usePlannerStore } from "../store/usePlannerStore";
 
 interface MapBoardProps {
     mapRef: RefObject<HTMLDivElement | null>;
-    placedIcons: PlacedIcon[];
-    onSelectIcon: (instanceId: string | null) => void;
-    selectedInstanceId: string | null;
-    onUpdateRotation: (instanceId: string, newRotation: number) => void;
-    onUpdateScale: (instanceId: string, newScale: number) => void;
-    onUpdatePosition: (instanceId: string, newX: number, newY: number) => void;
     mapObjects: MapObject[];
-    visibleCategories: Set<MapObjectCategory>;
-    onMapClick: (x: number, y: number) => void;
-    drawMode: boolean;
-    drawnLine: DrawnLine[];
-    ongoingPoint: Coordinate[];
 }
 
-export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedInstanceId, onUpdateRotation, onUpdateScale, onUpdatePosition, mapObjects, visibleCategories, onMapClick, drawMode, drawnLine, ongoingPoint }: MapBoardProps) {
+export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
     useDroppable({ id: "map", element: mapRef });
+    const visibleCategories = usePlannerStore((s) => s.visibleCategories);
+    const drawMode = usePlannerStore((s) => s.drawMode);
+    const drawnLine = usePlannerStore((s) => s.drawnLine);
+    const ongoingPoint = usePlannerStore((s) => s.ongoingPoint);
+    const onMapClick = usePlannerStore((s) => s.addPoint);
+    const placedIcons = usePlannerStore((s) => s.placedIcons);
+    const selectedInstanceId = usePlannerStore((s) => s.selectedInstanceId);
+    const selectIcon = usePlannerStore((s) => s.selectIcon);
+    const updateIcon = usePlannerStore((s) => s.updateIcon);
 
     return (
         <div 
             ref={mapRef} 
             onClick={(e) => {
                 if (drawMode === false) {
-                    onSelectIcon(null);
+                    selectIcon(null);
                 }
                 
                 if (!mapRef.current) return;
@@ -80,7 +79,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                                         const deltaY = moveEvent.clientY - centerY;
                                         const angleDegree = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 
-                                        onUpdateRotation(icon.instanceId, angleDegree);
+                                        updateIcon(icon.instanceId, { rotation: angleDegree });
                                     }
 
                                     function handleMouseUp() {
@@ -114,7 +113,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                                         const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
 
                                         const scale = distance / 50;
-                                        onUpdateScale(icon.instanceId, scale);
+                                        updateIcon(icon.instanceId, { scale });
                                     }
 
                                     function handleMouseUp() {
@@ -135,7 +134,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                         src={findImagePath(icon)}
                         onClick={(e) => {
                             e.stopPropagation();
-                            onSelectIcon(icon.instanceId);
+                            selectIcon(icon.instanceId);
                         }}
                         onMouseDown={(e) => {
                             e.preventDefault();
@@ -151,7 +150,7 @@ export default function MapBoard({ mapRef, placedIcons, onSelectIcon, selectedIn
                                 const newX = moveEvent.clientX - mapRect.left - offsetX;
                                 const newY = moveEvent.clientY - mapRect.top - offsetY;
 
-                                onUpdatePosition(icon.instanceId, newX, newY);
+                                updateIcon(icon.instanceId, { x: newX, y: newY });
                             }
 
                             function handleMouseUp() {

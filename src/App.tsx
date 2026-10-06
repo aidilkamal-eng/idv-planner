@@ -1,119 +1,19 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { DragDropProvider, DragOverlay } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
-import type { Coordinate, DrawnLine, PlacedIcon } from "./types/planner";
-import type { MapObjectCategory } from "./types/planner";
+import type { PlacedIcon } from "./types/planner";
 import UtilitySidebar from "./components/UtilitySidebar";
 import { armsFactoryObjects } from "./data/armsFactoryObjects";
 import { toPng } from "html-to-image";
 import { findImagePathByIdAndCategory } from "./utils/findIconData";
+import { usePlannerStore } from "./store/usePlannerStore";
 
 
 function App() {
     const mapRef = useRef<HTMLDivElement | null>(null);
-    const [placedIcons, setPlacedIcons] = useState<PlacedIcon[]>([]);
-    const [selectedInstanceId, setSelectedInstanceId] = useState<string | null>(null);
-    const [visibleCategories, setVisibleCategories] = useState<Set<MapObjectCategory>>(
-        new Set(["cypher", "rocketChair", "pallet"])
-    );
-    const [drawMode, setDrawMode] = useState<boolean>(false);
-    const [ongoingPoint, setOngoingPoint] = useState<Coordinate[]>([]);
-    const [drawnLine, setDrawnLine] = useState<DrawnLine[]>([]);
 
-    function updateIconPosition(instanceId: string, newX: number, newY: number) {
-        setPlacedIcons((prev) =>
-            prev.map((icon) => 
-                icon.instanceId === instanceId ? { ...icon, x: newX, y: newY } : icon
-            )
-        );
-    }
-
-    function updateIconRotation(instanceId: string, newRotation: number) {
-        setPlacedIcons((prev) =>
-            prev.map((icon) => 
-                icon.instanceId === instanceId ? { ...icon, rotation: newRotation } : icon
-            )
-        );
-    }
-
-    function updateIconScale(instanceId: string, newScale: number) {
-        setPlacedIcons((prev) =>
-            prev.map((icon) => 
-                icon.instanceId === instanceId ? { ...icon, scale: newScale } : icon
-            )
-        );
-    }
-
-    function toggleCategory(category: MapObjectCategory) {
-        setVisibleCategories((prev) => {
-            const next = new Set(prev);
-            if (next.has(category)) {
-                next.delete(category);
-            } else {
-                next.add(category);
-            }
-
-            return next;
-        });
-    }
-
-    function clearAllIcons() {
-        setPlacedIcons([]);
-        setSelectedInstanceId(null);
-        setDrawnLine([]);
-    }
-
-    function toggleDrawMode() {
-        if (drawMode === true) {
-            finalizeLine(false);
-        } else {
-            setDrawMode(true);
-        }
-    }
-
-    function finalizeLine(isClosed: boolean) {
-        if (ongoingPoint.length < 2) {
-            setOngoingPoint([]);
-            setDrawMode(false);
-        } else {
-            const newLine: DrawnLine = {
-                instanceId: crypto.randomUUID(),
-                points: ongoingPoint,
-                isClosed: isClosed,
-            }
-            setDrawnLine((prev) => [...prev, newLine]);
-            setOngoingPoint([]);
-            setDrawMode(false);
-        }
-    }
-
-    function handleMapClick(x: number, y: number) {
-        if (!drawMode) return;
-
-        const currentPos: Coordinate = {
-            x,
-            y
-        }
-
-        if (ongoingPoint.length > 0 && isNearPoint(currentPos, ongoingPoint[0], 10)) {
-            finalizeLine(true);
-        } else {
-            setOngoingPoint((prev) => [...prev, currentPos]);
-        }
-    }
-
-    function isNearPoint(a: Coordinate, b: Coordinate, threshold: number) {
-        const deltaX = a.x - b.x;
-        const deltaY = a.y - b.y;
-        const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
-
-        if (distance < threshold) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    const addIcon = usePlannerStore((s) => s.addIcon);
 
     async function saveMapAsImage() {
         if (!mapRef.current) return;
@@ -153,7 +53,7 @@ function App() {
                         scale: 1,
                     };
 
-                    setPlacedIcons((prev) => [...prev, newIcon]);
+                    addIcon(newIcon);
                 }}
             >
             <div style={{ flex: 1 }}>
@@ -162,30 +62,14 @@ function App() {
 
             <div style={{ flex: 2 }}>
                 <MapBoard 
-                    mapRef={mapRef} 
-                    placedIcons={placedIcons} 
-                    onSelectIcon={setSelectedInstanceId} 
-                    selectedInstanceId={selectedInstanceId}
-                    onUpdateRotation={updateIconRotation}
-                    onUpdateScale={updateIconScale}
-                    onUpdatePosition={updateIconPosition}
+                    mapRef={mapRef}
                     mapObjects={armsFactoryObjects}
-                    visibleCategories={visibleCategories}
-                    onMapClick={handleMapClick}
-                    drawMode={drawMode}
-                    drawnLine={drawnLine}
-                    ongoingPoint={ongoingPoint}
                 />
             </div>
 
             <div style={{ flex: 1 }}>
                 <UtilitySidebar 
-                    visibleCategories={visibleCategories} 
-                    onToggleCategory={toggleCategory}
-                    clearAllIcons={clearAllIcons}
                     saveMapAsImage={saveMapAsImage}
-                    toggleDrawMode={toggleDrawMode}
-                    drawMode={drawMode}
                 />
             </div>
 
