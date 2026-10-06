@@ -1,9 +1,17 @@
 import { create } from "zustand";
-import type { Coordinate, DrawnLine, MapObjectCategory } from "../types/planner";
+import type { Coordinate, DrawnLine, MapObjectCategory, PlacedIcon } from "../types/planner";
 import { isNearPoint } from "../utils/isNearPoint"
 
 
 interface PlannerState {
+    placedIcons: PlacedIcon[];
+    selectedInstanceId: string | null;
+
+    addIcon: (newIcon: PlacedIcon) => void;
+    selectIcon: (instanceId: string | null) => void;
+    updateIcon: (instanceId: string, changes: Partial<PlacedIcon>) => void;
+    clearAllIcons: () => void;
+
     drawMode: boolean;
     toggleDrawMode: () => void;
 
@@ -19,6 +27,30 @@ interface PlannerState {
 }
 
 export const usePlannerStore = create<PlannerState>()((set, get) => ({
+    placedIcons: [],
+    selectedInstanceId: null,
+
+    addIcon: (newIcon) => 
+        set((state) => {
+            return { placedIcons: [...state.placedIcons, newIcon] }
+        }),
+
+    selectIcon: (instanceId) => {
+        set({ selectedInstanceId: instanceId })
+    },
+
+    updateIcon: (instanceId, changes) => {
+        set((state) => ({
+            placedIcons: state.placedIcons.map((icon) =>
+                icon.instanceId === instanceId ? { ...icon, ...changes } : icon
+            ),
+        }))
+    },
+
+    clearAllIcons: () => {
+        set({ placedIcons: [], selectedInstanceId: null, drawnLine: [] });
+    },
+
     drawMode: false,
     toggleDrawMode: () => {
         if (get().drawMode) {
@@ -81,5 +113,5 @@ export const usePlannerStore = create<PlannerState>()((set, get) => ({
         } else {
             set({ ongoingPoint: [...ongoingPoint, currentPos]});
         }
-    }
+    },
 }));
