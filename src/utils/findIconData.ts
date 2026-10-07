@@ -5,23 +5,27 @@ import type { PlacedIcon } from "../types/planner";
 
 export function findImagePath(icon: PlacedIcon): string {
     switch (icon.category) {
-        case "survivor":
+        case "survivor": {
             const survivor = survivorList.find(s => s.id === icon.sourceId);
             if (!survivor) return "";
             return survivor.imagePath;
-        case "arrow":
+        }
+        case "arrow": {
             const arrow = arrowList.find(a => a.id === icon.sourceId);
             if (!arrow) return "";
             return arrow.imagePath;
-        case "hunter":
+        }
+        case "hunter": {
             const hunter = hunterList.find(h => h.id === icon.sourceId);
             if (!hunter) return "";
             return hunter.imagePath;
-        case "ability":
+        }
+        case "ability": {
             const abilitiesList = hunterList.flatMap(ability => ability.abilities);
             const abilities = abilitiesList.find(a => a.id === icon.sourceId);
             if (!abilities) return "";
             return abilities.imagePath;
+        }
         default:
             return "";
     }
