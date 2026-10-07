@@ -7,6 +7,13 @@
   --color-accent-hover: #6ba7e8;
 }
 
+@utility custom-scrollbar {
+  &::-webkit-scrollbar { width: 3px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+  &::-webkit-scrollbar-thumb:hover { background: #777; }
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -22,147 +29,4 @@ html, body {
 
 #root {
   height: 100%;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #777;
-}
-
-.sidebar-section {
-  border: 1px solid grey;
-  border-radius: 5px;
-  margin: 5px;
-  margin-bottom: 20px;
-}
-
-.sidebar-section summary {
-  list-style: none;
-  cursor: pointer;
-  display: block;
-  padding: 5px;
-}
-
-.sidebar-section summary::-webkit-details-marker {
-  display: none;
-}
-
-.sidebar-section #sidebar-title-note {
-  margin-left: 5px;
-  font-size: x-small;
-  color: white;
-  font-weight: 100;
-}
-
-.sidebar-title {
-  color: white;
-  text-align: center;
-  margin: 15px 0px;
-  font-size: large;
-}
-
-.sidebar-item-hunter {
-  border: 1px solid grey;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px 0px;
-}
-
-.sidebar-item-hunter summary {
-  display: flex;
-  color: white;
-  align-items: center;
-}
-
-.sidebar-item-hunter summary img {
-  width: 65px;
-  height: 65px;
-}
-
-.sidebar-item-hunter summary span {
-  margin-left: 10px;
-}
-
-.sidebar-item-hunter #ability-card {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 5px;
-  justify-content: start;
-  align-items: center;
-  max-width: 250px;
-}
-
-.sidebar-item-hunter #ability-item {
-  margin-top: 5px;
-  display: flex;
-  width: 80px;
-  height: 80px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-wrap: balance;
-}
-
-.sidebar-item-hunter #ability-item img {
-  width: 60px;
-  height: 60px;
-}
-
-.sidebar-item-survivor {
-  border: 1px solid grey;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px 0px;
-  display: flex;
-  align-items: center;
-}
-
-.sidebar-item-survivor img {
-  width: 65px;
-  height: 65px;
-}
-
-.sidebar-item-survivor p {
-  color: white;
-  margin-left: 10px;
-}
-
-.sidebar-section input[type="checkbox"],
-.utility-sidebar-section input[type="checkbox"] {
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border: 2px solid grey;
-  margin-right: 8px;
-  cursor: pointer;
-  position: relative;
-  vertical-align: middle;
-}
-
-.sidebar-section input[type="checkbox"]:checked,
-.utility-sidebar-section input[type="checkbox"]:checked {
-  border-color: #4a90d9;
-}
-
-.sidebar-section input[type="checkbox"]:checked::after,
-.utility-sidebar-section input[type="checkbox"]:checked::after {
-  content: "✓";
-  position: absolute;
-  top: -1px;
-  left: 5px;
-  color: white;
-  font-size: 16px;
 }
