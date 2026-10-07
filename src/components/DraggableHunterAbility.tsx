@@ -12,8 +12,8 @@ function DraggableHunterAbility({ ability }: DraggableHunterAbilityProps) {
     });
 
     return (
-        <div ref={ref} id="ability-item">
-            <img src={ability.imagePath}/>
+        <div ref={ref} className="mt-1.25 flex size-20 flex-col items-center justify-center text-balance cursor-grab active:cursor-grabbing">
+            <img src={ability.imagePath} className="h-15 w-15"/>
         </div>
     );
 }

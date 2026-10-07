@@ -12,9 +12,9 @@ function DraggableSurvivor({ survivor }: DraggableSurvivorProps) {
     });
 
     return (
-        <div ref={ref} className="sidebar-item-survivor">
-            <img src={survivor.imagePath}/>
-            <p>{survivor.name}</p>
+        <div ref={ref} className="mx-0 my-1.25 flex items-center rounded-sm border border-gray-500 p-1.25 cursor-grab active:cursor-grabbing">
+            <img src={survivor.imagePath} className="h-16.25 w-16.25"/>
+            <p className="ml-2.5 text-white">{survivor.name}</p>
         </div>
     );
 }

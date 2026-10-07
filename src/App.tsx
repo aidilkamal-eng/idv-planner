@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { DragDropProvider, DragOverlay } from "@dnd-kit/react";
 import MapBoard from "./components/MapBoard";
 import Sidebar from "./components/Sidebar";
@@ -8,12 +8,15 @@ import { armsFactoryObjects } from "./data/armsFactoryObjects";
 import { toPng } from "html-to-image";
 import { findImagePathByIdAndCategory } from "./utils/findIconData";
 import { usePlannerStore } from "./store/usePlannerStore";
+import { getIconSize } from "./utils/iconSize";
 
 
 function App() {
     const mapRef = useRef<HTMLDivElement | null>(null);
 
     const addIcon = usePlannerStore((s) => s.addIcon);
+
+    const [grabOffset, setGrabOffset] = useState({ x: 0, y: 0 });
 
     async function saveMapAsImage() {
         if (!mapRef.current) return;
@@ -27,8 +30,19 @@ function App() {
     }
 
     return (
-        <div style={{display: "flex", justifyContent: "space-between",}}>
+        <div className="flex justify-between">
             <DragDropProvider
+                onDragStart={(event) => {
+                    const { source, position } = event.operation;
+                    if (!source?.element) return;
+
+                    const rect = source.element.getBoundingClientRect();
+                    setGrabOffset({
+                        x: position.initial.x - rect.left,
+                        y: position.initial.y - rect.top,
+                    });
+                }}
+
                 onDragEnd={(event) => {
                     if (event.canceled) return;
                     if (!mapRef.current) return;
@@ -56,30 +70,33 @@ function App() {
                     addIcon(newIcon);
                 }}
             >
-            <div style={{ flex: 1 }}>
+            <div className="flex-1">
                 <Sidebar />
             </div>
 
-            <div style={{ flex: 2 }}>
+            <div className="flex-2">
                 <MapBoard 
                     mapRef={mapRef}
                     mapObjects={armsFactoryObjects}
                 />
             </div>
 
-            <div style={{ flex: 1 }}>
+            <div className="flex-1">
                 <UtilitySidebar 
                     saveMapAsImage={saveMapAsImage}
                 />
             </div>
 
             <DragOverlay>
-                {(source) => (
-                    <img
-                        src={findImagePathByIdAndCategory(String(source.id), String(source.data.category))}
-                        style={{ width: 50, height: 50}}
-                    />
-                )}
+                {(source) => {
+                    const size = getIconSize(String(source.data.category));
+                    return (
+                        <img
+                            src={findImagePathByIdAndCategory(String(source.id), String(source.data.category))}
+                            style={{ width: size, height: size, marginLeft: grabOffset.x, marginTop: grabOffset.y}}
+                        />
+                    );
+                }}
             </DragOverlay>
 
             </DragDropProvider>
