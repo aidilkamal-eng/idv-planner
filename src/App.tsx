@@ -30,7 +30,7 @@ function App() {
     }
 
     return (
-        <div style={{display: "flex", justifyContent: "space-between",}}>
+        <div className="flex justify-between">
             <DragDropProvider
                 onDragStart={(event) => {
                     const { source, position } = event.operation;
@@ -70,18 +70,18 @@ function App() {
                     addIcon(newIcon);
                 }}
             >
-            <div style={{ flex: 1 }}>
+            <div className="flex-1">
                 <Sidebar />
             </div>
 
-            <div style={{ flex: 2 }}>
+            <div className="flex-2">
                 <MapBoard 
                     mapRef={mapRef}
                     mapObjects={armsFactoryObjects}
                 />
             </div>
 
-            <div style={{ flex: 1 }}>
+            <div className="flex-1">
                 <UtilitySidebar 
                     saveMapAsImage={saveMapAsImage}
                 />
@@ -93,7 +93,7 @@ function App() {
                     return (
                         <img
                             src={findImagePathByIdAndCategory(String(source.id), String(source.data.category))}
-                            style={{ width: size, height: size, marginLeft:grabOffset.x, marginTop: grabOffset.y}}
+                            style={{ width: size, height: size, marginLeft: grabOffset.x, marginTop: grabOffset.y}}
                         />
                     );
                 }}
