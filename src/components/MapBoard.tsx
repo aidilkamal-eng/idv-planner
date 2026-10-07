@@ -5,6 +5,7 @@ import { findImagePath } from "../utils/findIconData";
 import mapObjectIcons from "../utils/mapObjectIcons";
 import { coordinatesToSvgPoints } from "../utils/turnCoordinateToSvgPoints";
 import { usePlannerStore } from "../store/usePlannerStore";
+import { getIconSize } from "../utils/iconSize";
 
 interface MapBoardProps {
     mapRef: RefObject<HTMLDivElement | null>;
@@ -165,8 +166,8 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
                             position: "absolute",
                             left: icon.x,
                             top: icon.y,
-                            width: icon.category === "ability" ? 27 : 55,
-                            height: icon.category === "ability" ? 27 : 55,
+                            width: getIconSize(icon.category),
+                            height: getIconSize(icon.category),
                             transform: `rotate(${icon.rotation}deg) scale(${icon.scale})`,
                         }}
                     />

@@ -8,6 +8,7 @@ import { armsFactoryObjects } from "./data/armsFactoryObjects";
 import { toPng } from "html-to-image";
 import { findImagePathByIdAndCategory } from "./utils/findIconData";
 import { usePlannerStore } from "./store/usePlannerStore";
+import { getIconSize } from "./utils/iconSize";
 
 
 function App() {
@@ -87,12 +88,15 @@ function App() {
             </div>
 
             <DragOverlay>
-                {(source) => (
-                    <img
-                        src={findImagePathByIdAndCategory(String(source.id), String(source.data.category))}
-                        style={{ width: 50, height: 50, marginLeft:grabOffset.x, marginTop: grabOffset.y}}
-                    />
-                )}
+                {(source) => {
+                    const size = getIconSize(String(source.data.category));
+                    return (
+                        <img
+                            src={findImagePathByIdAndCategory(String(source.id), String(source.data.category))}
+                            style={{ width: size, height: size, marginLeft:grabOffset.x, marginTop: grabOffset.y}}
+                        />
+                    );
+                }}
             </DragOverlay>
 
             </DragDropProvider>
