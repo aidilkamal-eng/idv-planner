@@ -38,9 +38,11 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
                 const y = e.clientY - rect.top;
                 onMapClick(x, y);
             }}
-            style={{ position: "relative", width: 901, height: 763, cursor: drawMode === true ? "crosshair" : "default" }}
+            className={`relative h-190.75 w-225.25 ${
+                drawMode ? "cursor-crosshair" : "cursor-default"
+            }`}
         >
-            <img src="/assets/Maps/ArmsFactory.webp" alt="Arms Factory Map" style={{ width: "100%", height: "100%" }}/>
+            <img src="/assets/Maps/ArmsFactory.webp" alt="Arms Factory Map" className="size-full"/>
 
             {mapObjects
                 .filter((obj) => visibleCategories.has(obj.category))
@@ -48,13 +50,8 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
                     <img
                         key={obj.id}
                         src={mapObjectIcons[obj.category]}
-                        style={{
-                            position: "absolute",
-                            left: obj.x,
-                            top: obj.y,
-                            width: 20,
-                            height: 20,
-                        }}
+                        className="absolute size-5"
+                        style={{ left: obj.x, top: obj.y }}
                     />
                 ))
             }
@@ -90,8 +87,9 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
 
                                     window.addEventListener("mousemove", handleMouseMove);
                                     window.addEventListener("mouseup", handleMouseUp);
-                                }} 
-                                style={{ position:'absolute', left: icon.x + 50, top: icon.y, width: 14, height: 14, zIndex: 10 }}
+                                }}
+                                className="absolute z-10 size-3.5" 
+                                style={{ left: icon.x + 50, top: icon.y }}
                             />
                                 
                             
@@ -125,7 +123,8 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
                                     window.addEventListener("mousemove", handleMouseMove);
                                     window.addEventListener("mouseup", handleMouseUp);
                                 }} 
-                                style={{ position:'absolute', left: icon.x + 50, top: icon.y + 50, width: 17, height: 17, zIndex: 10 }}
+                                className="absolute z-10 size-4.25"
+                                style={{ left: icon.x + 50, top: icon.y + 50 }}
                             />
                                 
                         </div>
@@ -162,8 +161,8 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
                             window.addEventListener("mousemove", handleMouseMove);
                             window.addEventListener("mouseup", handleMouseUp);
                         }}
+                        className="absolute"
                         style={{
-                            position: "absolute",
                             left: icon.x,
                             top: icon.y,
                             width: getIconSize(icon.category),
@@ -174,7 +173,7 @@ export default function MapBoard({ mapRef, mapObjects }: MapBoardProps) {
                 </div>
             ))}
 
-            <svg style={{ position: "absolute", top: 0, left: 0, width: 901, height: 763, pointerEvents: "none" }}>
+            <svg className="pointer-events-none absolute top-0 left-0 size-full">
                 {drawnLine.map((line) => (
                     line.isClosed 
                         ?   <polygon key={line.instanceId} points={coordinatesToSvgPoints(line.points)} stroke="white" fill="none"/>
